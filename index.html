@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>MLatihan Kreplin</title>
+</head>
+<body>
+    <div class="container">
+        <h1 id="quiz-title">Tes Kreplin</h1>
+        <div class="menu" id="main-menu">
+            <button onclick="showTimeSelect()">Start</button>
+            <button onclick="showHistory()">History</button>
+        </div>
+
+        <div id="time-select" style="display: none;">
+            <p>Pilih Waktu:</p>
+            <button onclick="startQuiz(30)">30 detik</button>
+            <button onclick="startQuiz(60)">1 Menit</button>
+        </div>
+
+        <p class="timer" id="timer"></p>
+        <p class="question" id="question" style="display: none;"></p>
+        <div class="options" id="options" style="display: none;"></div>
+        <div class="history" id="history" style="display: none;">
+            
+            <h2>History</h2>
+            <button onclick="deleteHistory()">Hapus History</button>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Score</th>
+                    </tr>
+                    <canvas id="history-chart" style="width:100%; height:400px;"></canvas>
+                </thead>
+                <tbody id="history-content"></tbody>
+            </table>
+            <button onclick="returnToMenu()">Kembali ke menu</button>
+        </div>
+
+        <!-- Footer Section -->
+        <footer id="footer">
+        <p>HAFIZH NUR WAHID 2024</p>
+        </footer>
+
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
