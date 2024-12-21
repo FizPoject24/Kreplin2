@@ -38,7 +38,8 @@ function startQuiz(timeLimit) {
         document.getElementById('timer').innerText = `Waktu: ${timeLimit} Detik`;
 
         if (timeLimit <= 0) {
-            endQuiz();
+            clearInterval(timerInterval); // Stop the timer
+            endQuiz(); // End the quiz when time runs out
         }
     }, 1000);
 
@@ -138,13 +139,19 @@ function updateHistory() {
 }
 
 function generateHistoryChart() {
-    const ctx = document.getElementById('history-chart').getContext('2d');
+    const chartContainer = document.getElementById('history-chart');
+    const ctx = chartContainer.getContext('2d');
+
+    // Destroy existing chart if it exists
+    if (chartContainer.chartInstance) {
+        chartContainer.chartInstance.destroy();
+    }
 
     const labels = history.map(entry => entry.date);
     const correctData = history.map(entry => entry.correct);
     const incorrectData = history.map(entry => entry.incorrect);
 
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
@@ -181,6 +188,9 @@ function generateHistoryChart() {
             }
         }
     });
+
+    // Store chart instance for later use
+    chartContainer.chartInstance = chart;
 }
 
 function showHistory() {
@@ -199,6 +209,9 @@ function deleteHistory() {
     // Remove the history from local storage permanently
     localStorage.removeItem('quizHistory');
 
+    // Clear the history array
+    history.length = 0;
+
     // Clear the history table immediately
     const historyContent = document.getElementById('history-content');
     historyContent.innerHTML = '';  // Remove all rows from the table
@@ -207,11 +220,14 @@ function deleteHistory() {
     const row = document.createElement('tr');
     const emptyCell = document.createElement('td');
     emptyCell.colSpan = 2;
-    emptyCell.innerText = 'History has been permanently deleted.';
+    emptyCell.innerText = 'No history available';
     row.appendChild(emptyCell);
     historyContent.appendChild(row);
 
     // Also remove the chart
     const chartContainer = document.getElementById('history-chart');
-    chartContainer.innerHTML = '';  // Remove the chart
-}
+    if (chartContainer.chartInstance) {
+        chartContainer.chartInstance.destroy(); // Destroy the chart instance
+        chartContainer.chartInstance = null; // Reset the chart instance
+    }
+}  
