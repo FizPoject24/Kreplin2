@@ -6,7 +6,7 @@ const questions = [];
 const history = JSON.parse(localStorage.getItem('quizHistory')) || [];
 
 // Generate 50 questions
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 1000; i++) {
     const num1 = Math.floor(Math.random() * 10);
     const num2 = Math.floor(Math.random() * 10);
     questions.push({
